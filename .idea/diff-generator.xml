@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DiffGenerationConfig">
+    <option name="snapshotDb" value="false" />
+    <option name="snapshotModelValue" value="Default" />
+    <option name="sourceModelValue" value="Default" />
+    <option name="targetDbValue" value="05c97ddf-c878-40d8-bd74-27bab0baa685" />
+    <option name="updateChangeLogPath" value="gocoffee/src/main/resources/db/changelog/changelog.xml" />
+    <option name="updateDbConnectionName" value="05c97ddf-c878-40d8-bd74-27bab0baa685" />
+  </component>
+</project>
