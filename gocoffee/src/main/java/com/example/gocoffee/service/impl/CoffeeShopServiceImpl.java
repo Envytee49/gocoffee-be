@@ -1,9 +1,11 @@
 package com.example.gocoffee.service.impl;
 
+import com.example.gocoffee.dto.request.PageDtoRequest;
 import com.example.gocoffee.dto.request.coffeeshop.CreateCoffeeShopRequest;
 import com.example.gocoffee.dto.request.coffeeshop.QueryCoffeeShopRequest;
 import com.example.gocoffee.dto.request.coffeeshop.TagShopRequest;
 import com.example.gocoffee.dto.request.coffeeshop.UpdateCoffeeShopRequest;
+import com.example.gocoffee.dto.response.PageDtoResponse;
 import com.example.gocoffee.dto.response.coffeeshop.DetailCoffeeShopResponse;
 import com.example.gocoffee.dto.response.coffeeshop.QueryCoffeeShopResponse;
 import com.example.gocoffee.enums.ImageTypeEnum;
@@ -22,6 +24,7 @@ import com.example.gocoffee.util.AppStringUtil;
 import com.example.gocoffee.util.DateUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,12 +40,13 @@ public class CoffeeShopServiceImpl implements CoffeeShopService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public List<QueryCoffeeShopResponse> getCoffeeShopByFilter(final QueryCoffeeShopRequest request) {
-        PageRequest pageRequest = PageRequest.of(0, 20);
-        List<CoffeeShopProjection> coffeeShopProjections = coffeeShopRepository.getCoffeeShop(
+    public PageDtoResponse<QueryCoffeeShopResponse> getCoffeeShopByFilter(final PageDtoRequest pageDtoRequest,
+                                                                          final QueryCoffeeShopRequest queryRequest) {
+        PageRequest pageRequest = PageRequest.of(pageDtoRequest.getPage(), pageDtoRequest.getSize());
+        Page<CoffeeShopProjection> coffeeShopProjections = coffeeShopRepository.getCoffeeShop(
                 ImageTypeEnum.COVER,
                 pageRequest);
-        return coffeeShopProjections.stream()
+        List<QueryCoffeeShopResponse> queryCoffeeShopResponses = coffeeShopProjections.getContent().stream()
                 .map(shop -> QueryCoffeeShopResponse.builder()
                         .coffeeShopId(shop.getCoffeeShopId())
                         .name(shop.getName())
@@ -50,6 +54,12 @@ public class CoffeeShopServiceImpl implements CoffeeShopService {
                         .detailAddress(shop.getDetailAddress())
                         .build())
                 .toList();
+        return PageDtoResponse.from(
+                pageDtoRequest.getPage(),
+                pageDtoRequest.getSize(),
+                coffeeShopProjections.getTotalElements(),
+                queryCoffeeShopResponses
+        );
     }
 
     @Override

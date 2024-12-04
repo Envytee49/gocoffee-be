@@ -1,5 +1,6 @@
 package com.example.gocoffee.controller;
 
+import com.example.gocoffee.dto.request.PageDtoRequest;
 import com.example.gocoffee.dto.request.coffeeshop.QueryCoffeeShopRequest;
 import com.example.gocoffee.dto.request.coffeeshop.TagShopRequest;
 import com.example.gocoffee.dto.response.ApiResponse;
@@ -21,8 +22,9 @@ public class CoffeeShopController extends AbstractController {
     private final CoffeeShopService coffeeShopService;
 
     @GetMapping
-    public ApiResponse<?> getCoffeeShopByFilters(QueryCoffeeShopRequest request) {
-        return respond(() -> coffeeShopService.getCoffeeShopByFilter(request));
+    public ApiResponse<?> getCoffeeShopByFilters(@Valid PageDtoRequest pageDtoRequest,
+                                                 QueryCoffeeShopRequest queryRequest) {
+        return respond(() -> coffeeShopService.getCoffeeShopByFilter(pageDtoRequest, queryRequest));
     }
 
     @GetMapping("/{id}")
