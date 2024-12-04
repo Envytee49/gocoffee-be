@@ -1,12 +1,13 @@
 package com.example.gocoffee.service;
 
 import com.example.gocoffee.dto.request.user.UserRequest;
+import com.example.gocoffee.dto.response.user.UserInfoResponse;
 import com.example.gocoffee.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    User getUserInfo();
+    UserInfoResponse getUserInfo();
 
     User updateProfile(UserRequest dto);
 

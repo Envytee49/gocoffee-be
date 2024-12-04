@@ -27,9 +27,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/admin/**").hasRole(RoleEnum.ADMIN.name())
-//                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole(RoleEnum.ADMIN.name())
+                        .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(
                         oauth2 -> oauth2.jwt(Customizer.withDefaults())

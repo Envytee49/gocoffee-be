@@ -20,7 +20,7 @@ public enum ErrorCode {
 
     NO_RESOURCE_FOUND(1002, "No resource found."),
 
-    USERNAME_NOT_FOUND(1003, "Username Not Found"),
+    USER_NOT_FOUND(1003, "User Not Found"),
 
     EMAIL_EXISTED(1004, "Email Existed"),
 

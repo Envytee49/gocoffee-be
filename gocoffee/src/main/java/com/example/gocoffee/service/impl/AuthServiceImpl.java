@@ -1,5 +1,6 @@
 package com.example.gocoffee.service.impl;
 
+import com.example.gocoffee.dto.request.auth.TokenRefreshRequest;
 import com.example.gocoffee.dto.response.auth.GoogleUserResponse;
 import com.example.gocoffee.dto.response.auth.JwtTokenResponse;
 import com.example.gocoffee.exception.InternalServerException;
@@ -18,6 +19,7 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Arrays;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -50,6 +53,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public JwtTokenResponse getJwtToken(String code, String redirectUri) {
         try {
+            log.info(code);
+            log.info(redirectUri);
             NetHttpTransport transport = new NetHttpTransport();
             String accessToken = getGoogleAccessToken(code, transport, redirectUri);
             GoogleUserResponse userInfo = getUserInfoFromGoogle(accessToken, transport);
@@ -62,6 +67,16 @@ public class AuthServiceImpl implements AuthService {
         } catch (IOException e) {
             throw new InternalServerException(e.getMessage());
         }
+    }
+
+    @Override
+    public JwtTokenResponse refreshToken(final TokenRefreshRequest request) {
+        return null;
+    }
+
+    @Override
+    public void logOut() {
+
     }
 
     private String getGoogleAccessToken(String code, NetHttpTransport transport, String redirectUri) throws IOException {

@@ -1,4 +1,7 @@
 package com.example.gocoffee.dto.response.user;
 
-public class UserInfoResponse {
+import lombok.Builder;
+
+@Builder
+public record UserInfoResponse (String name, String phone, String email, String profileUrl) {
 }
